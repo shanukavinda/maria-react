@@ -1,11 +1,18 @@
-// DataDisplay.js
 import React, { useEffect, useState } from 'react';
-import db  from './db';
+import mysql from 'mysql2';
 
 function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+
+    const db = mysql.createConnection({
+      host: '192.168.1.59',
+      user: 'user',
+      password: '123',
+      database: 'cmisdb',
+    });
+
     // Fetch data from the database
     db.query('SELECT * FROM ci_customer LIMIT 10', (err, results) => {
       if (err) {
@@ -13,7 +20,7 @@ function App() {
       } else {
         setData(results);
       }
-    });  
+    });
   }, []);
 
   return (
