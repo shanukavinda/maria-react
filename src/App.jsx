@@ -1,47 +1,31 @@
-import { useState, useEffect } from 'react'
-const mysql = require('mysql2');
-import './App.css'
+// DataDisplay.js
+import React, { useEffect, useState } from 'react';
+import db from './db';
 
 function App() {
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
-
-    // Replace with your database credentials
-    const connection = mysql.createConnection({
-      host: '192.168.1.59',
-      user: 'user',
-      password: '123',
-      database: 'cmisdb'
-    });
-
-    connection.query('SELECT * FROM ci_city', (err, results) => {
+    // Fetch data from the database
+    db.query('SELECT * FROM ci_customer LIMIT 10', (err, results) => {
       if (err) {
-        console.error('Error executing query:', err);
-        return;
+        console.error('Error fetching data:', err);
+      } else {
+        setData(results);
       }
-
-      setData(results);
     });
-
-    connection.end();
   }, []);
 
-  
-
   return (
-    <>
-      <div>
-      <h1>Retrieved Data:</h1>
+    <div>
+      <h1>Data from MariaDB</h1>
       <ul>
-        {data.map((item, index) => (
-          <li key={index}>{item.columnName}</li>
+        {data.map((row) => (
+          <li key={row.id}>{row.full_name_en}</li>
         ))}
       </ul>
     </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
