@@ -1,6 +1,6 @@
 // DataDisplay.js
 import React, { useEffect, useState } from 'react';
-import db from './db';
+import db  from './db';
 
 function App() {
   const [data, setData] = useState([]);
@@ -13,7 +13,7 @@ function App() {
       } else {
         setData(results);
       }
-    });
+    });  
   }, []);
 
   return (
